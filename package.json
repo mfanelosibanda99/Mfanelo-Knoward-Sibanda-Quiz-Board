@@ -1,0 +1,14 @@
+{
+  "name": "se-quiz-project",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Software Engineering quiz app with dashboard, scoring, history and achievements.",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}

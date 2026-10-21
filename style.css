@@ -1,0 +1,1023 @@
+/* ==========================================================
+   SE Quiz - styles
+   Look: purple header, dark background, deep indigo question
+   card and orange buttons (inspired by the Quizio template).
+   Sections: variables, base, layout, buttons, dashboard,
+   quiz, results, bottom navigation, responsive, motion
+   ========================================================== */
+
+/* ---------- Variables ---------- */
+:root {
+    --purple: #6a45ff;
+    --purple-deep: #4a2fd1;
+    --indigo: #231a5e;          /* question card */
+    --bg-top: #17171c;
+    --bg-bottom: #101014;
+    --surface: rgba(255, 255, 255, 0.06);
+    --border: rgba(255, 255, 255, 0.12);
+
+    --orange: #ff7a14;
+    --orange-soft: rgba(255, 122, 20, 0.14);
+    --green: #4cc16b;
+    --green-soft: rgba(76, 193, 107, 0.12);
+    --red: #ff5d5d;
+    --red-soft: rgba(255, 93, 93, 0.12);
+
+    --text: #ffffff;
+    --muted: #a2a3b3;
+
+    --font: 'Poppins', 'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    --nav-height: 72px;
+    --radius: 20px;
+}
+
+/* ---------- Base ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    background: #0a0a0f;
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+button {
+    font-family: inherit;
+}
+
+:focus-visible {
+    outline: 3px solid var(--orange);
+    outline-offset: 3px;
+}
+
+/* Visually hidden but available to screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- Layout ---------- */
+.app {
+    position: relative;
+    max-width: 440px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding-bottom: calc(var(--nav-height) + 1.5rem);
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 85% 35%, rgba(76, 193, 107, 0.07), transparent 45%),
+        linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+}
+
+.view {
+    padding: 0 1.25rem 1rem;
+}
+
+.view:not([hidden]) {
+    animation: view-in 0.35s ease;
+}
+
+.panel {
+    margin-top: 1.25rem;
+    padding: 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.panel h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.panel > h2 {
+    margin-bottom: 1rem;
+}
+
+.panel-note {
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+.empty-state {
+    padding: 1rem 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.95rem 1.5rem;
+    border: 2px solid transparent;
+    border-radius: 999px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-primary {
+    background: var(--orange);
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(255, 122, 20, 0.3);
+}
+
+.btn-secondary {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--text);
+}
+
+.btn-secondary:hover {
+    background: var(--surface);
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.link-btn {
+    background: none;
+    border: none;
+    color: var(--orange);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* ==========================================================
+   DASHBOARD
+   ========================================================== */
+.dash-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.75rem 0 1.25rem;
+}
+
+.dash-hello {
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.dash-title {
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.avatar {
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    font-size: 1.6rem;
+    background: linear-gradient(135deg, var(--purple), var(--purple-deep));
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(106, 69, 255, 0.3);
+}
+
+.start-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    padding: 1.35rem;
+    background: linear-gradient(135deg, var(--purple) 0%, var(--purple-deep) 100%);
+    border-radius: 24px;
+    box-shadow: 0 14px 30px rgba(74, 47, 209, 0.35);
+}
+
+.start-card h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+}
+
+.start-card p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.start-card .btn {
+    align-self: flex-start;
+}
+
+/* Stat cards (dashboard and results) */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+    margin-top: 1.25rem;
+}
+
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+}
+
+.stat-value {
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--orange);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+/* Achievements */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+}
+
+.achievement {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    padding: 0.9rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed var(--border);
+    border-radius: 16px;
+    opacity: 0.5;
+}
+
+.achievement::after {
+    content: '🔒';
+    position: absolute;
+    top: 0.6rem;
+    right: 0.7rem;
+    font-size: 0.8rem;
+}
+
+.achievement-icon {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    font-size: 1.4rem;
+    background: var(--surface);
+    border-radius: 50%;
+    filter: grayscale(1);
+}
+
+.achievement h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.achievement p {
+    font-size: 0.75rem;
+    line-height: 1.35;
+    color: var(--muted);
+}
+
+.achievement.unlocked {
+    opacity: 1;
+    background: var(--orange-soft);
+    border: 1px solid rgba(255, 122, 20, 0.5);
+}
+
+.achievement.unlocked::after {
+    content: '✔';
+    color: var(--green);
+    font-weight: 700;
+}
+
+.achievement.unlocked .achievement-icon {
+    background: rgba(255, 122, 20, 0.2);
+    filter: none;
+    box-shadow: 0 0 14px rgba(255, 122, 20, 0.35);
+}
+
+/* History */
+.history-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px dotted var(--border);
+}
+
+.history-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.history-main,
+.history-score {
+    display: flex;
+    flex-direction: column;
+}
+
+.history-score {
+    align-items: flex-end;
+    gap: 0.2rem;
+}
+
+.history-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.history-date {
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+.history-points {
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+.history-percent {
+    padding: 0.15rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.history-percent.good {
+    background: var(--green-soft);
+    color: var(--green);
+}
+
+.history-percent.average {
+    background: var(--orange-soft);
+    color: var(--orange);
+}
+
+.history-percent.poor {
+    background: var(--red-soft);
+    color: var(--red);
+}
+
+/* ==========================================================
+   QUIZ
+   ========================================================== */
+#quiz-view {
+    position: relative;
+}
+
+/* Purple top area with a slanted bottom edge */
+#quiz-view::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 270px;
+    background: linear-gradient(180deg, var(--purple) 0%, #5a37e8 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 82%);
+    z-index: 0;
+}
+
+.quiz-top,
+.timer,
+.question-card,
+.answer-form {
+    position: relative;
+    z-index: 1;
+}
+
+.quiz-top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-top: 1.5rem;
+}
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.pill-icon {
+    font-size: 0.95rem;
+    line-height: 1;
+}
+
+.pill-dark {
+    background: #17171c;
+    color: #ffffff;
+}
+
+.pill-orange {
+    background: var(--orange);
+    color: #1b1206;
+}
+
+.progress {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.28);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 10%;
+    height: 100%;
+    background: var(--orange);
+    border-radius: inherit;
+    transition: width 0.4s ease;
+}
+
+/* Timer ring, overlapping the top of the question card */
+.timer {
+    position: relative;
+    width: 84px;
+    height: 84px;
+    margin: 1.25rem auto 0;
+    display: grid;
+    place-items: center;
+    background: #17171c;
+    border: 5px solid var(--purple-deep);
+    border-radius: 50%;
+    z-index: 2;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.timer-ring {
+    position: absolute;
+    inset: 2px;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    transform: rotate(-90deg);
+}
+
+.timer-track,
+.timer-progress {
+    fill: none;
+    stroke-width: 7;
+}
+
+.timer-track {
+    stroke: rgba(255, 255, 255, 0.12);
+}
+
+.timer-progress {
+    stroke: var(--orange);
+    stroke-linecap: round;
+    stroke-dasharray: 276.46;      /* circle length: 2 x pi x 44 */
+    stroke-dashoffset: 69;         /* JavaScript changes this as time passes */
+    transition: stroke-dashoffset 1s linear;
+}
+
+.timer-text {
+    position: relative;
+    font-size: 1rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Question card */
+.question-card {
+    position: relative;
+    margin-top: -42px;
+    padding: 3.4rem 1.25rem 1.5rem;
+    background: var(--indigo);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
+    text-align: center;
+}
+
+.topic-tag {
+    position: absolute;
+    top: 0.9rem;
+    left: 0.9rem;
+    padding: 0.3rem 0.7rem;
+    background: var(--orange-soft);
+    color: var(--orange);
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    max-width: 38%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.question-number {
+    font-size: 1.9rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.question-number span {
+    color: var(--orange);
+}
+
+.quiz-category {
+    margin-top: 0.9rem;
+    font-size: 0.95rem;
+    color: var(--muted);
+}
+
+.divider {
+    margin: 0.9rem 0;
+    border: none;
+    border-top: 1px dotted rgba(255, 255, 255, 0.25);
+}
+
+.question-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+.question-text::before {
+    content: '\201C';
+}
+
+.question-text::after {
+    content: '\201D';
+}
+
+/* Answer options */
+.answer-form {
+    margin-top: 1.4rem;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+    border: none;
+}
+
+.option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 60px;
+    padding: 0.9rem 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+}
+
+.option:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+/* The real radio button is hidden but still works with the keyboard */
+.option input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+}
+
+.option-text {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.option-check {
+    position: relative;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border: 2px solid rgba(255, 255, 255, 0.28);
+    border-radius: 50%;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.option-check::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    width: 7px;
+    height: 12px;
+    border: solid #ffffff;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg) scale(0);
+    transition: transform 0.2s ease;
+}
+
+/* Selected option (not marked right or wrong - that happens at the end) */
+.option:has(input:checked) {
+    background: var(--orange-soft);
+    border-color: var(--orange);
+}
+
+.option:has(input:checked) .option-text {
+    color: var(--orange);
+}
+
+.option input:checked ~ .option-check {
+    background: var(--orange);
+    border-color: var(--orange);
+}
+
+.option input:checked ~ .option-check::after {
+    transform: rotate(45deg) scale(1);
+}
+
+.option:has(input:focus-visible) {
+    outline: 3px solid var(--orange);
+    outline-offset: 3px;
+}
+
+.form-hint {
+    margin-bottom: 0.8rem;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--orange);
+}
+
+.quit-btn {
+    display: block;
+    margin: 1.1rem auto 0;
+    color: var(--muted);
+}
+
+/* ==========================================================
+   RESULTS
+   ========================================================== */
+.results-hero {
+    padding: 2.25rem 0 0.5rem;
+    text-align: center;
+}
+
+.score-ring {
+    --score: 80;                    /* JavaScript sets this to the percentage */
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 1.1rem;
+    display: grid;
+    place-items: center;
+    background: conic-gradient(var(--orange) calc(var(--score) * 1%), rgba(255, 255, 255, 0.12) 0);
+    border-radius: 50%;
+    box-shadow: 0 0 30px rgba(255, 122, 20, 0.25);
+}
+
+.score-ring::before {
+    content: '';
+    position: absolute;
+    inset: 11px;
+    background: #17171c;
+    border-radius: 50%;
+}
+
+.score-percent {
+    position: relative;
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+.results-hero h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.results-hero p {
+    margin-top: 0.2rem;
+    color: var(--muted);
+}
+
+.result-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.7rem;
+    margin-top: 1.4rem;
+}
+
+.result-stats .stat-card {
+    align-items: center;
+    text-align: center;
+}
+
+.stat-card.correct .stat-value {
+    color: var(--green);
+}
+
+.stat-card.wrong .stat-value {
+    color: var(--red);
+}
+
+.new-badges {
+    margin-top: 1.1rem;
+    padding: 1rem 1.1rem;
+    background: var(--orange-soft);
+    border: 1px solid rgba(255, 122, 20, 0.5);
+    border-radius: 18px;
+}
+
+.new-badges h3 {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--orange);
+}
+
+.new-badges ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.new-badges li {
+    padding: 0.25rem 0.75rem;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.result-actions {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+/* Review list: this is where answers are marked */
+.review-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.review-item {
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-left-width: 4px;
+    border-radius: 16px;
+}
+
+.review-item.correct {
+    background: var(--green-soft);
+    border-color: rgba(76, 193, 107, 0.45);
+}
+
+.review-item.wrong {
+    background: var(--red-soft);
+    border-color: rgba(255, 93, 93, 0.45);
+}
+
+.review-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    margin-bottom: 0.6rem;
+}
+
+.review-status {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.review-item.correct .review-status {
+    background: var(--green);
+}
+
+.review-item.wrong .review-status {
+    background: var(--red);
+}
+
+.review-question {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.review-answer,
+.review-correct {
+    font-size: 0.88rem;
+    color: var(--muted);
+}
+
+.review-answer strong {
+    color: var(--text);
+}
+
+.review-item.wrong .review-answer strong {
+    color: var(--red);
+}
+
+.review-correct strong {
+    color: var(--green);
+}
+
+.review-explanation {
+    margin-top: 0.6rem;
+    padding-top: 0.6rem;
+    border-top: 1px dashed var(--border);
+    font-size: 0.82rem;
+    color: var(--muted);
+}
+
+/* ==========================================================
+   BOTTOM NAVIGATION
+   ========================================================== */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    width: 100%;
+    max-width: 440px;
+    height: var(--nav-height);
+    display: flex;
+    background: rgba(23, 23, 28, 0.94);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+}
+
+.nav-link {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.1rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.nav-icon {
+    font-size: 1.35rem;
+    filter: grayscale(1);
+    opacity: 0.7;
+    transition: transform 0.2s ease;
+}
+
+.nav-link.active {
+    color: var(--orange);
+}
+
+.nav-link.active .nav-icon {
+    filter: none;
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.noscript {
+    padding: 1rem;
+    text-align: center;
+    color: var(--orange);
+}
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+
+/* Wider screens: show the app as a phone-shaped card in the middle */
+@media (min-width: 500px) {
+    body {
+        padding: 24px 0;
+    }
+
+    .app {
+        min-height: calc(100vh - 48px);
+        border-radius: 36px;
+        box-shadow:
+            0 30px 60px rgba(0, 0, 0, 0.55),
+            0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .bottom-nav {
+        bottom: 24px;
+        border-radius: 0 0 36px 36px;
+    }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+    .question-number {
+        font-size: 1.6rem;
+    }
+
+    .question-text {
+        font-size: 1.05rem;
+    }
+
+    .pill {
+        padding: 0.45rem 0.6rem;
+        font-size: 0.72rem;
+    }
+
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------- Animation ---------- */
+@keyframes view-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}

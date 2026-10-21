@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Practice Software Engineering topics, track your quiz results, and review your answers.">
+    <title>SE Quiz - Software Engineering Quiz App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="app">
+        <!-- Dashboard -->
+        <section id="dashboard-view" class="view" aria-labelledby="dashboard-title">
+            <header class="dash-header">
+                <div>
+                    <p class="dash-hello">Welcome back,</p>
+                    <h1 class="dash-title" id="dashboard-title"><span id="user-name">Learner</span></h1>
+                </div>
+            </header>
+
+            <div class="start-card">
+                <div>
+                    <h2>Software Engineering Quiz</h2>
+                    <p>Test your knowledge and track your progress.</p>
+                </div>
+                <a href="#quiz" class="btn btn-primary" id="start-quiz-btn">Start Quiz</a>
+            </div>
+
+            <!-- These values are filled from saved quiz history by script.js. -->
+            <div class="stats-grid" aria-label="Quiz statistics">
+                <div class="stat-card">
+                    <span class="stat-value" id="stat-taken">0</span>
+                    <span class="stat-label">Quizzes taken</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="stat-average">0%</span>
+                    <span class="stat-label">Average score</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="stat-best">0%</span>
+                    <span class="stat-label">Best score</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="stat-correct">0</span>
+                    <span class="stat-label">Correct answers</span>
+                </div>
+            </div>
+
+            <!-- Achievements are rendered and unlocked by script.js. -->
+            <section class="panel" aria-labelledby="achievements-title">
+                <div class="panel-head">
+                    <h2 id="achievements-title">Achievements</h2>
+                    <span class="panel-note" id="achievements-count">0 of 5 unlocked</span>
+                </div>
+                <div class="achievements-grid" id="achievements-grid">
+                    <article class="achievement" data-id="first-steps">
+                        <span class="achievement-icon" aria-hidden="true">🏁</span>
+                        <h3>First Steps</h3>
+                        <p>Complete your first quiz</p>
+                    </article>
+                    <article class="achievement" data-id="sharp-mind">
+                        <span class="achievement-icon" aria-hidden="true">🎯</span>
+                        <h3>Sharp Mind</h3>
+                        <p>Score 80% or more</p>
+                    </article>
+                    <article class="achievement" data-id="perfect-score">
+                        <span class="achievement-icon" aria-hidden="true">🏆</span>
+                        <h3>Perfect Score</h3>
+                        <p>Get every question right</p>
+                    </article>
+                    <article class="achievement" data-id="five-quizzes">
+                        <span class="achievement-icon" aria-hidden="true">🔥</span>
+                        <h3>Five Quizzes</h3>
+                        <p>Complete 5 quizzes</p>
+                    </article>
+                    <article class="achievement" data-id="level-up">
+                        <span class="achievement-icon" aria-hidden="true">🚀</span>
+                        <h3>Level Up</h3>
+                        <p>Beat your previous best score</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Quiz history is rendered from localStorage by script.js. -->
+            <section class="panel" aria-labelledby="history-title">
+                <div class="panel-head">
+                    <h2 id="history-title">Quiz history</h2>
+                    <button type="button" class="link-btn" id="clear-history-btn">Clear history</button>
+                </div>
+                <p class="empty-state" id="history-empty">You have not taken a quiz yet. Start your first one!</p>
+                <ul class="history-list" id="history-list"></ul>
+            </section>
+        </section>
+
+        <!-- Quiz -->
+        <section id="quiz-view" class="view" aria-labelledby="question-text" hidden>
+            <div class="quiz-top">
+                <div class="pill pill-dark">
+                    <span id="question-counter">01 of 10</span>
+                </div>
+
+                <div class="progress" role="progressbar" aria-label="Quiz progress"
+                     aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="quiz-progress">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+
+                <div class="pill pill-orange">
+                    <span class="pill-icon" aria-hidden="true">✔</span>
+                    <span id="answered-counter">0 answered</span>
+                </div>
+            </div>
+
+            <div class="timer" id="timer" aria-label="Quiz timer">
+                <svg class="timer-ring" viewBox="0 0 100 100" aria-hidden="true">
+                    <circle class="timer-track" cx="50" cy="50" r="44"></circle>
+                    <circle class="timer-progress" id="timer-progress" cx="50" cy="50" r="44"></circle>
+                </svg>
+                <span class="timer-text" id="timer-text">00:00</span>
+            </div>
+
+            <article class="question-card" aria-live="polite">
+                <span class="topic-tag" id="question-topic">Software Engineering</span>
+                <h2 class="question-number">Question <span id="question-number">01</span></h2>
+                <p class="quiz-category" id="quiz-category">Software Engineering Quiz</p>
+                <hr class="divider">
+                <p class="question-text" id="question-text">Your question will appear here.</p>
+            </article>
+
+            <form id="answer-form" class="answer-form" novalidate>
+                <fieldset class="options" id="options">
+                    <legend class="sr-only">Choose one answer</legend>
+                    <!-- Options are generated from the TypeScript question bank. -->
+                </fieldset>
+
+                <p class="form-hint" id="form-hint" role="alert" hidden>Please choose an answer to continue.</p>
+                <button type="submit" class="btn btn-primary btn-block" id="next-btn">Next</button>
+                <button type="button" class="link-btn quit-btn" id="quit-btn">Quit quiz</button>
+            </form>
+        </section>
+
+        <!-- Results -->
+        <section id="results-view" class="view" aria-labelledby="result-title" hidden>
+            <div class="results-hero">
+                <div class="score-ring" id="score-ring">
+                    <span class="score-percent" id="result-percent">0%</span>
+                </div>
+                <h2 id="result-title">Quiz complete</h2>
+                <p id="result-message">Your results will appear here.</p>
+            </div>
+
+            <div class="result-stats">
+                <div class="stat-card correct">
+                    <span class="stat-value" id="result-correct">0</span>
+                    <span class="stat-label">Correct</span>
+                </div>
+                <div class="stat-card wrong">
+                    <span class="stat-value" id="result-wrong">0</span>
+                    <span class="stat-label">Wrong</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="result-time">00:00</span>
+                    <span class="stat-label">Time</span>
+                </div>
+            </div>
+
+            <div class="new-badges" id="new-badges" hidden>
+                <h3>New achievement unlocked!</h3>
+                <ul id="new-badges-list"></ul>
+            </div>
+
+            <div class="result-actions">
+                <button type="button" class="btn btn-primary" id="restart-btn">Restart Quiz</button>
+                <a href="#dashboard" class="btn btn-secondary" id="back-dashboard-btn">Back to Dashboard</a>
+            </div>
+
+            <section class="panel" aria-labelledby="review-title">
+                <h2 id="review-title">Review your answers</h2>
+                <ol class="review-list" id="review-list"></ol>
+            </section>
+        </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Main navigation">
+        <a href="#dashboard" class="nav-link active" id="nav-dashboard" aria-current="page">
+            <span>Dashboard</span>
+        </a>
+        <a href="#quiz" class="nav-link" id="nav-quiz">
+            <span>Quiz</span>
+        </a>
+    </nav>
+
+    <noscript>
+        <p class="noscript">This quiz needs JavaScript to work. Please enable JavaScript in your browser.</p>
+    </noscript>
+
+    <!-- Run "npm run build" to compile types.ts, questions.ts and script.ts to .js files. -->
+    <script src="types.js"></script>
+    <script src="questions.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
