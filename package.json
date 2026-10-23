@@ -4,10 +4,10 @@
   "private": true,
   "description": "Software Engineering quiz app with dashboard, scoring, history and achievements.",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch",
-    "typecheck": "tsc --noEmit"
-  },
+  "build": "node ./node_modules/typescript/bin/tsc",
+  "watch": "node ./node_modules/typescript/bin/tsc --watch",
+  "typecheck": "node ./node_modules/typescript/bin/tsc --noEmit"
+},
   "devDependencies": {
     "typescript": "^7.0.2"
   }

@@ -3,8 +3,9 @@
 // The shared interfaces live in types.ts and the question bank lives in questions.ts.
 const HISTORY_KEY = "seQuizAttempts";
 const NAME_KEY = "seQuizLearnerName";
-const QUIZ_LENGTH = 10;
-const SECONDS_PER_QUESTION = 30;
+const QUESTIONS_PER_LEVEL = 10;
+const MAX_LEVELS = 5;
+const SECONDS_PER_QUESTION = 35;
 const QUIZ_TITLE = "Software Engineering Quiz";
 const CIRCUMFERENCE = 2 * Math.PI * 44;
 function el(id) {
@@ -56,6 +57,7 @@ const newBadges = el("new-badges");
 const newBadgesList = el("new-badges-list");
 const reviewList = el("review-list");
 let activeQuestions = [];
+let currentLevel = 1;
 let currentIndex = 0;
 let selectedAnswers = [];
 let review = [];
@@ -316,7 +318,8 @@ function renderQuestion() {
     questionCounter.textContent = `${position} of ${String(activeQuestions.length).padStart(2, "0")}`;
     questionNumber.textContent = position;
     questionTopic.textContent = question.topic;
-    quizCategory.textContent = QUIZ_TITLE;
+    quizCategory.textContent =
+        `Level ${currentLevel} of ${MAX_LEVELS}`;
     questionText.textContent = question.question;
     nextButton.textContent = currentIndex === activeQuestions.length - 1 ? "Finish" : "Next";
     formHint.hidden = true;
@@ -326,11 +329,13 @@ function renderQuestion() {
 }
 function startQuiz() {
     const bank = getQuestionBank();
-    if (bank.length === 0) {
-        alert("No quiz questions are available. Make sure questions.js is loaded.");
+    const levelQuestions = bank.filter(question => question.level === currentLevel);
+    if (levelQuestions.length === 0) {
+        alert(`No questions found for Level ${currentLevel}. ` +
+            "Check your questions.ts file and make sure it is loaded.");
         return;
     }
-    activeQuestions = shuffle(bank).slice(0, Math.min(QUIZ_LENGTH, bank.length));
+    activeQuestions = shuffle(levelQuestions).slice(0, Math.min(QUESTIONS_PER_LEVEL, levelQuestions.length));
     currentIndex = 0;
     selectedAnswers = activeQuestions.map(() => null);
     review = [];
@@ -377,7 +382,7 @@ function finishQuiz() {
         correct,
         total,
         durationSeconds,
-        topic: QUIZ_TITLE
+        topic: `Level ${currentLevel} - ${QUIZ_TITLE}`
     };
     const history = readHistory();
     const unlockedBefore = unlockedBadgeIds(history);
@@ -396,18 +401,17 @@ function renderResults(attempt) {
     resultCorrect.textContent = String(attempt.correct);
     resultWrong.textContent = String(attempt.total - attempt.correct);
     resultTime.textContent = duration(attempt.durationSeconds);
-    if (attempt.score >= 100) {
-        resultMessage.textContent = "Perfect score. Outstanding work!";
-    }
-    else if (attempt.score >= 80) {
-        resultMessage.textContent = "Great result. You really know this topic.";
-    }
-    else if (attempt.score >= 50) {
-        resultMessage.textContent = "Good effort. Review the answers below and try again.";
+    if (currentLevel < MAX_LEVELS) {
+        resultMessage.textContent =
+            `You completed Level ${currentLevel}! ` +
+                "Review your answers, then continue to the next level.";
     }
     else {
-        resultMessage.textContent = "Keep going. Review the answers below and try again.";
+        resultMessage.textContent =
+            "Congratulations! You have completed all 5 levels.";
     }
+    restartButton.textContent =
+        currentLevel < MAX_LEVELS ? "Next Level" : "Play Again";
 }
 function renderNewBadges() {
     newBadges.hidden = newlyUnlocked.length === 0;
@@ -498,7 +502,8 @@ optionsBox.addEventListener("change", () => {
 startButton.addEventListener("click", (event) => {
     event.preventDefault();
     window.history.replaceState(null, "", "#quiz");
-    goToQuiz();
+    currentLevel = 1;
+    startQuiz();
 });
 navQuiz.addEventListener("click", (event) => {
     event.preventDefault();
@@ -516,8 +521,14 @@ backButton.addEventListener("click", (event) => {
     goToDashboard();
 });
 restartButton.addEventListener("click", () => {
+    if (currentLevel < MAX_LEVELS) {
+        currentLevel += 1;
+    }
+    else {
+        currentLevel = 1;
+    }
     window.history.replaceState(null, "", "#quiz");
-    goToQuiz();
+    startQuiz();
 });
 quitButton.addEventListener("click", () => {
     if (!window.confirm("Quit this quiz? Your answers will not be saved."))

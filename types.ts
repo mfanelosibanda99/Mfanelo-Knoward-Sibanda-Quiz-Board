@@ -7,13 +7,13 @@
 // One question from the quiz question bank.
 interface QuizQuestion {
     id: number;
+    level: number;
     topic: string;
     question: string;
     options: string[];
     correctIndex: number;
     explanation: string;
 }
-
 // One completed quiz, stored in localStorage.
 interface QuizAttempt {
     id: string;
